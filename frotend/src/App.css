@@ -1,0 +1,357 @@
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+
+:root{
+  --bg1:#070a12;
+  --bg2:#0b1430;
+  --glass: rgba(255,255,255,0.10);
+  --glass2: rgba(255,255,255,0.06);
+  --stroke: rgba(255,255,255,0.18);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.72);
+  --muted2: rgba(255,255,255,0.55);
+  --dangerBg: rgba(255, 90, 90, 0.18);
+  --danger: rgba(255, 160, 160, 0.95);
+  --shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 20% 10%, #15215b 0%, transparent 60%),
+              radial-gradient(900px 600px at 80% 30%, #0c6a6a 0%, transparent 55%),
+              linear-gradient(140deg, var(--bg1), var(--bg2));
+}
+
+/* ===== Layout ===== */
+.page{
+  min-height: 100vh;
+  padding: 44px 18px 70px;
+  display: grid;
+  gap: 18px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== Animated Background (floating bacteria) ===== */
+.bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* subtle film grain */
+.grain{
+  position: absolute;
+  inset: -80px;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0.18;
+  filter: blur(0.2px);
+  transform: rotate(6deg);
+}
+
+/* bacteria blobs (pure CSS) */
+.blob{
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 45% 55% 60% 40% / 50% 35% 65% 50%;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,0.45), transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.20), transparent 45%),
+    radial-gradient(circle at 45% 55%, rgba(255,255,255,0.10), transparent 55%),
+    linear-gradient(135deg, rgba(0, 255, 208, 0.25), rgba(79, 70, 229, 0.22));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.10) inset,
+    0 30px 80px rgba(0,0,0,0.35);
+  filter: blur(0.2px) saturate(1.1);
+  opacity: 0.65;
+  animation: floaty 14s ease-in-out infinite;
+}
+
+.blob::before, .blob::after{
+  content:"";
+  position:absolute;
+  inset: 18%;
+  border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
+  border: 1px dashed rgba(255,255,255,0.20);
+  opacity: 0.55;
+  transform: rotate(12deg);
+}
+
+.blob::after{
+  inset: 28%;
+  border-style: solid;
+  opacity: 0.25;
+}
+
+/* individual positions + different timing */
+.b1{ left: -60px; top: 90px; width: 300px; height: 300px; animation-duration: 18s; }
+.b2{ right: -90px; top: 160px; width: 360px; height: 360px; animation-duration: 22s; opacity: 0.55; }
+.b3{ left: 18%; bottom: -120px; width: 420px; height: 420px; animation-duration: 26s; opacity: 0.50; }
+.b4{ right: 18%; bottom: -140px; width: 260px; height: 260px; animation-duration: 16s; opacity: 0.62; }
+.b5{ left: 55%; top: -120px; width: 280px; height: 280px; animation-duration: 20s; opacity: 0.48; }
+
+/* float motion */
+@keyframes floaty{
+  0%   { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+  35%  { transform: translate3d(18px,-22px,0) rotate(10deg) scale(1.03); }
+  70%  { transform: translate3d(-14px,18px,0) rotate(-8deg) scale(0.98); }
+  100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+}
+
+/* ===== Cards (glassmorphism) ===== */
+.card{
+  width: min(980px, 95vw);
+  background: linear-gradient(180deg, var(--glass), var(--glass2));
+  border: 1px solid var(--stroke);
+  border-radius: 22px;
+  padding: 22px 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 1;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: radial-gradient(700px 220px at 20% 0%, rgba(255,255,255,0.14), transparent 60%);
+  pointer-events:none;
+}
+
+/* ===== Typography ===== */
+.title{
+  margin: 0 0 6px;
+  font-size: 30px;
+  letter-spacing: 0.2px;
+}
+
+.subtitle{
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.title2{
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+/* ===== Form ===== */
+.form{
+  display: grid;
+  gap: 14px;
+}
+
+.label{
+  display: grid;
+  gap: 7px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+}
+
+.input{
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(10, 16, 36, 0.55);
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+  transition: transform 120ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.input::placeholder{
+  color: rgba(255,255,255,0.45);
+}
+
+.input:focus{
+  border-color: rgba(255,255,255,0.40);
+  box-shadow: 0 0 0 4px rgba(0, 255, 208, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn{
+  margin-top: 6px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 800;
+  color: rgba(255,255,255,0.95);
+  background:
+    linear-gradient(135deg, rgba(0,255,208,0.75), rgba(79,70,229,0.75));
+  box-shadow: 0 16px 40px rgba(0, 255, 208, 0.12);
+  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+}
+
+.btn:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 18px 55px rgba(79,70,229,0.18);
+}
+
+.btn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+/* ===== Error ===== */
+.error{
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--dangerBg);
+  border: 1px solid rgba(255, 120, 120, 0.28);
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* ===== Meta ===== */
+.meta{
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+  color: rgba(255,255,255,0.88);
+}
+
+/* ===== Table ===== */
+.table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(6, 10, 24, 0.35);
+}
+
+/* ===== Background with MANY floating bacteria ===== */
+.bgMany{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* лёгкая зернистость */
+.grain{
+  position: absolute;
+  inset: -80px;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0.16;
+  filter: blur(0.2px);
+  transform: rotate(6deg);
+}
+
+/* одна “бактерия” */
+.bug{
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.55;
+  filter: blur(0.15px) saturate(1.15);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 42%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.16), transparent 50%),
+    linear-gradient(135deg, rgba(0,255,208,0.32), rgba(79,70,229,0.28));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.10) inset,
+    0 18px 50px rgba(0,0,0,0.22);
+  animation-name: drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform: rotate(var(--rot));
+}
+
+/* “кокки” — круглые */
+.bug.coccus{
+  border-radius: 999px;
+}
+
+/* “бациллы” — вытянутые */
+.bug.bacillus{
+  border-radius: 999px;
+  width: calc(var(--w, 1) * 1px);
+  transform: rotate(calc(var(--rot) + 25deg));
+  /* сделаем их чуть вытянутыми через scale */
+  scale: 1.35 0.85;
+}
+
+/* добавим внутреннее кольцо */
+.bug::before{
+  content:"";
+  position:absolute;
+  inset: 18%;
+  border-radius: inherit;
+  border: 1px dashed rgba(255,255,255,0.18);
+  opacity: 0.55;
+}
+
+/* маленькие “точки” как структуры */
+.bug::after{
+  content:"";
+  position:absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 25% 55%, rgba(255,255,255,0.22) 1px, transparent 2px),
+    radial-gradient(circle at 65% 35%, rgba(255,255,255,0.18) 1px, transparent 2px),
+    radial-gradient(circle at 55% 70%, rgba(255,255,255,0.16) 1px, transparent 2px);
+  opacity: 0.55;
+}
+
+/* анимация “плавания” */
+@keyframes drift{
+  0%   { transform: translate3d(0,0,0) rotate(var(--rot)); }
+  35%  { transform: translate3d(var(--drift), calc(var(--drift) * -0.8), 0) rotate(calc(var(--rot) + 14deg)); }
+  70%  { transform: translate3d(calc(var(--drift) * -0.8), var(--drift), 0) rotate(calc(var(--rot) - 10deg)); }
+  100% { transform: translate3d(0,0,0) rotate(var(--rot)); }
+}
+
+
+.table th, .table td{
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  text-align: left;
+  font-size: 14px;
+}
+
+.table th{
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.86);
+  font-weight: 800;
+}
+
+.table tr:hover td{
+  background: rgba(255,255,255,0.04);
+}
+
+.table td{
+  color: rgba(255,255,255,0.86);
+}
+
+.hint{
+  margin-top: 12px;
+  color: var(--muted2);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px){
+  .card{ padding: 18px; }
+  .title{ font-size: 24px; }
+  .subtitle{ font-size: 14px; }
+  .table th, .table td{ font-size: 13px; padding: 10px; }
+}
